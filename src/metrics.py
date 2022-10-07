@@ -3,7 +3,6 @@ import numpy as np
 from numpy.linalg import norm
 from skimage.measure import marching_cubes, mesh_surface_area
 from dipy.tracking.utils import density_map
-import pandas as pd
 import nibabel as nib
 import nibabel.streamlines as nibs
 
@@ -114,7 +113,8 @@ def tract_diameter(tract, tract_vol):
 
 def tract_surface_area(tract_vol):
     """Calculates surface area of the tract
-    Where the reference publication https://doi.org/10.1016/j.neuroimage.2020.117329
+    Where the reference publication
+    (https://doi.org/10.1016/j.neuroimage.2020.117329)
     uses voxel spacing to calculate the suface volume of the tract
     we use a marching cubes algorithm to approximage a surface mesh of the
     bundle and then calculate the  area of that surface mesh.
@@ -151,7 +151,7 @@ def calculate_metrics(tract, tract_vol):
         (np.pi*diameter_metric*length_metric)
 
     # Construct final dictionary to output
-    metrics_dict = {'tract_length': length_metric,  # putting in brackets to later import in dataframe
+    metrics_dict = {'tract_length': length_metric,
                     'tract_span': span_metric,
                     'tract_curl': curl_metric,
                     'tract_diameter': diameter_metric,
