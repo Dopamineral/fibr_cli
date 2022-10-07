@@ -1,4 +1,5 @@
-from src.metrics import *
+from src.metrics import streamline2volume, tract_length, tract_span
+from src.metrics import tract_diameter, tract_surface_area
 import nibabel as nib
 import nibabel.streamlines as nibs
 import pytest
