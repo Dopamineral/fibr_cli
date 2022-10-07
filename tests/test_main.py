@@ -4,7 +4,7 @@ from src.main import do_thing
 
 @pytest.mark.parametrize("a,b,c,expected,is_error",
                          [
-                             (1, 1, 1, 1, False),
+                             (1, 1, 1, "1", False),
                              (1, 0, 1, ZeroDivisionError, True)
 
                          ])
