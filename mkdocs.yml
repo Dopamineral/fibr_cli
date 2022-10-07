@@ -9,7 +9,7 @@ nav:
   - Code:
     - code/index.md
     - Main: code/main.md
-
+    - Calculating Metrics: code/metrics.md
 theme:
   favicon: assets/brain.png
   logo: assets/brain_big.png
