@@ -5,6 +5,7 @@ nav:
   - About:
     - about/index.md
     - Lab: about/lab.md
+    - Development: about/development.md
   - Code:
     - code/index.md
     - Main: code/main.md
