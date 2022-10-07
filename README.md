@@ -14,3 +14,4 @@ https://docs.github.com/en/actions/automating-builds-and-tests/building-and-test
 https://www.mkdocs.org/getting-started/
 https://squidfunk.github.io/mkdocs-material/
 https://mkdocstrings.github.io/
+https://www.mkdocs.org/user-guide/deploying-your-docs/
