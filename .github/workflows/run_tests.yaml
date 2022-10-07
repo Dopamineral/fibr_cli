@@ -1,0 +1,44 @@
+# Set up the task
+name: Run Tests
+run-name: ${{ github.actor }} is testing the CLI.
+on: [push]
+
+#make jobs
+jobs:
+  build:
+    # spin up ubuntu virtual machine
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
+
+    # check out the branch and set up on the spin machine.
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Brute force formatting with black
+        run: |
+          black src
+          black tests
+
+      - name: Check if any flake8 issues remain
+        run: |
+          flake8 src --count --max-line-lengt=88
+          flake8 tests --count --max-line-lengt=88
+
+      - name: Run Pytest
+        run: |
+          pytest --showlocals --tb=long --pastebin=all
+
+      - name: Run security check with Bandit
+        run: |
+          bandit -r src/ -v
+          bandit -r tests/ -v

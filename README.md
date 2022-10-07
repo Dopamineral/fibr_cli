@@ -5,3 +5,8 @@ Test
 ## Resources used
 ### Dev branch vs main branch
 https://stackoverflow.com/questions/39478482/how-to-create-development-branch-from-master-on-github
+
+### Github actions
+https://docs.github.com/en/actions/using-workflows/about-workflows
+
+### 
