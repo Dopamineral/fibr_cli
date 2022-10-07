@@ -8,5 +8,9 @@ https://stackoverflow.com/questions/39478482/how-to-create-development-branch-fr
 
 ### Github actions
 https://docs.github.com/en/actions/using-workflows/about-workflows
+https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
-### 
+### Setting up MKdocs documentation
+https://www.mkdocs.org/getting-started/
+https://squidfunk.github.io/mkdocs-material/
+https://mkdocstrings.github.io/
