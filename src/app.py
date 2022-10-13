@@ -7,7 +7,7 @@ import nibabel as nib
 import nibabel.streamlines as nibs
 from metrics import streamline2volume
 from metrics import calculate_metrics
-
+import pandas as pd
 
 def nii_validation(arg: str):
 
@@ -504,7 +504,7 @@ continue:\n ----")
             subject_metrics_filename = args.subject_save_file.split(".json")[0]
 
         print(f"saving subject metrics to: {subject_metrics_filename}.json")
-        with open(f"{PREFIX}{subject_metrics_filename}\{SUFFIX}.json",
+        with open(f"{PREFIX}{subject_metrics_filename}{SUFFIX}.json",
                   "w",
                   encoding="utf-8") as write_file:
             json.dump(subject_data, write_file, indent=4)
@@ -539,12 +539,14 @@ continue:\n ----")
         # load extra bundle info and add to master dict
         extra_bundle_list = []
         extra_bundle_labels = []
-        for index, extra_info_file in enumerate(TASK_DATA["extra_bundle_info_files"]):
+        for index, extra_info_file in enumerate(
+                TASK_DATA["extra_bundle_info_files"]):
+
             with open(extra_info_file, "r", encoding="utf-8") as read_file:
                 extra_info = json.load(read_file)
 
-            extra_bundle_labels.append({index:extra_info_file})
-            extra_bundle_list.append({index:extra_info})
+            extra_bundle_labels.append({index: extra_info_file})
+            extra_bundle_list.append({index: extra_info})
 
         TASK_DATA["extra_bundle_info_files"] = extra_bundle_labels
         TASK_DATA["extra_bundle_info"] = extra_bundle_list
@@ -577,9 +579,25 @@ continue:\n ----")
     TASK_DATA["left_bundles"] = left_bundle_labels
     TASK_DATA["right_bundles"] = right_bundle_labels
 
-    pprint(TASK_DATA)
+    # pprint(TASK_DATA)
 
     # --save_metrics / -m
+    json_format_metrics = True
+    csv_format_metrics = False
+    if args.metrics_format:
+        if args.metrics_format == "csv":
+            csv_format_metrics = True
+
     if args.save_metrics:
-        with open("bundle_metrics.json","w", encoding="utf-8") as metrics_file:
-            json.dump(TASK_DATA, metrics_file, indent=4)
+        if json_format_metrics:
+            with open(f"{PREFIX}bundle_metrics{SUFFIX}.json",
+                      "w",
+                      encoding="utf-8") as metrics_file:
+                json.dump(TASK_DATA, metrics_file, indent=4)
+
+        if csv_format_metrics:
+            #TODO: Unpack the nested json data into (multiple?) \
+            # csv files as output
+            print("Saving metrics to CSV not implemented yet. Continuing")
+
+    

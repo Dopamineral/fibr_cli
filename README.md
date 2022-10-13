@@ -21,3 +21,4 @@ https://realpython.com/command-line-interfaces-python-argparse/#:~:text=The%20co
 
 ### Working with JSON
 https://realpython.com/python-json/
+https://www.geeksforgeeks.org/convert-nested-json-to-csv-in-python/
