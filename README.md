@@ -18,3 +18,7 @@ https://www.mkdocs.org/user-guide/deploying-your-docs/
 
 ### Argparse
 https://realpython.com/command-line-interfaces-python-argparse/#:~:text=The%20command%20line%20interface%20(also,currently%20the%20Python%20argparse%20library.
+
+### Working with JSON
+https://realpython.com/python-json/
+https://www.geeksforgeeks.org/convert-nested-json-to-csv-in-python/

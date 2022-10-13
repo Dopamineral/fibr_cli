@@ -1,0 +1,129 @@
+{
+    "subject_data": {
+        "subject_age": 45,
+        "subject_sex": "M",
+        "subject_handedness": "R",
+        "subject_method": "iFOD2",
+        "subject_clean": true,
+        "subject_act": true,
+        "subject_tract": "AF_wprecentral"
+    },
+    "left_bundles": [
+        {
+            "0": "AF_left.tck"
+        },
+        {
+            "1": "AF_left.tck"
+        },
+        {
+            "2": "AF_right.tck"
+        }
+    ],
+    "right_bundles": [
+        {
+            "0": "AF_right.tck"
+        },
+        {
+            "1": "AF_right.tck"
+        },
+        {
+            "2": "AF_left.tck"
+        }
+    ],
+    "metrics_left": [
+        {
+            "0": {
+                "tract_length_L": 94.76845490264719,
+                "tract_span_L": 43.849891662597656,
+                "tract_curl_L": 2.161201574495136,
+                "tract_diameter_L": 21.14471169731773,
+                "tract_elongation_L": 4.481898654341494,
+                "tract_volume_L": 33278.0,
+                "tract_surface_area_L": 41141.65625,
+                "tract_irregularity_L": 6.535312069207887
+            }
+        },
+        {
+            "1": {
+                "tract_length_L": 94.76845490264719,
+                "tract_span_L": 43.849891662597656,
+                "tract_curl_L": 2.161201574495136,
+                "tract_diameter_L": 21.14471169731773,
+                "tract_elongation_L": 4.481898654341494,
+                "tract_volume_L": 33278.0,
+                "tract_surface_area_L": 41141.65625,
+                "tract_irregularity_L": 6.535312069207887
+            }
+        },
+        {
+            "2": {
+                "tract_length_L": 83.19066147162192,
+                "tract_span_L": 52.03642654418945,
+                "tract_curl_L": 1.5987005064803252,
+                "tract_diameter_L": 20.389502883835082,
+                "tract_elongation_L": 4.080073062378386,
+                "tract_volume_L": 27163.0,
+                "tract_surface_area_L": 35243.91015625,
+                "tract_irregularity_L": 6.613829545415491
+            }
+        }
+    ],
+    "metrics_right": [
+        {
+            "0": {
+                "tract_length_R": 83.19066147162192,
+                "tract_span_R": 52.03642654418945,
+                "tract_curl_R": 1.5987005064803252,
+                "tract_diameter_R": 20.389502883835082,
+                "tract_elongation_R": 4.080073062378386,
+                "tract_volume_R": 27163.0,
+                "tract_surface_area_R": 35243.91015625,
+                "tract_irregularity_R": 6.613829545415491
+            }
+        },
+        {
+            "1": {
+                "tract_length_R": 83.19066147162192,
+                "tract_span_R": 52.03642654418945,
+                "tract_curl_R": 1.5987005064803252,
+                "tract_diameter_R": 20.389502883835082,
+                "tract_elongation_R": 4.080073062378386,
+                "tract_volume_R": 27163.0,
+                "tract_surface_area_R": 35243.91015625,
+                "tract_irregularity_R": 6.613829545415491
+            }
+        },
+        {
+            "2": {
+                "tract_length_R": 94.76845490264719,
+                "tract_span_R": 43.849891662597656,
+                "tract_curl_R": 2.161201574495136,
+                "tract_diameter_R": 21.14471169731773,
+                "tract_elongation_R": 4.481898654341494,
+                "tract_volume_R": 33278.0,
+                "tract_surface_area_R": 41141.65625,
+                "tract_irregularity_R": 6.535312069207887
+            }
+        }
+    ],
+    "predictions": [
+        {
+            "0": {
+                "pred_laterality_index": 0.21752983331680298,
+                "pred_laterality": "L"
+            }
+        },
+        {
+            "1": {
+                "pred_laterality_index": 0.21752983331680298,
+                "pred_laterality": "L"
+            }
+        },
+        {
+            "2": {
+                "pred_laterality_index": -0.14370234310626984,
+                "pred_laterality": "R"
+            }
+        }
+    ]
+}
