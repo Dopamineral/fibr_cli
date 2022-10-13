@@ -8,6 +8,8 @@ import nibabel.streamlines as nibs
 from metrics import streamline2volume
 from metrics import calculate_metrics
 import pandas as pd
+from prediction import predict_laterality_from_task_data
+
 
 def nii_validation(arg: str):
 
@@ -432,8 +434,8 @@ RP, SS, AR
                            help="format to save intermediate predictions")
 
     my_parser.add_argument('-o', '--save_output',
-                           action="store_true",
-                           help='Save report of all calculations?')
+                           type=str,
+                           help='Base name of the saved output files')
 
     my_parser.add_argument('-of', '--output_format',
                            choices=["json", "csv", "pdf", "docx"],
@@ -456,6 +458,7 @@ RP, SS, AR
     # Make one big master task dictionary with all the instructions to feed into
     # the calculations / predictions and reports
     TASK_DATA = {}
+    EXTRA_DATA_PRESENT = False
 
     # --prefix / --suffix  if there are user defined suffixes.
     PREFIX = ""
@@ -531,6 +534,7 @@ continue:\n ----")
 
     # --extra_bundle_info / -eb
     if args.extra_bundle_info:
+        EXTRA_DATA_PRESENT = True
         if not json_validation(args.extra_bundle_info):
             exit()
         else:
@@ -557,7 +561,11 @@ continue:\n ----")
     left_bundle_labels = []
     for index, bundle in enumerate(TASK_DATA["left_bundles"]):
         metrics = calculate_metrics_one_bundle(ref_nii, bundle)
+
+        # TODO: the indexing of the json is a bit strange this way. This could be done
+        # a bit more elegantly in the future, but now there's no confusion
         bundle_dict = {index: metrics}
+
         label = {index: bundle}
         left_bundle_metrics.append(bundle_dict)
         left_bundle_labels.append(label)
@@ -596,8 +604,106 @@ continue:\n ----")
                 json.dump(TASK_DATA, metrics_file, indent=4)
 
         if csv_format_metrics:
-            #TODO: Unpack the nested json data into (multiple?) \
+            # TODO: Unpack the nested json data into (multiple?) \
             # csv files as output
-            print("Saving metrics to CSV not implemented yet. Continuing")
+            print("Saving Metrics to CSV not implemented yet. Continuing")
 
-    
+    if args.custom_model:
+        print("Custom model selection will be implemented in the future.")
+
+    # --prediction_format / -pf
+    json_format_prediction = True
+    csv_format_prediction = False
+    if args.prediction_format:
+        if args.prediction_format == "csv":
+            csv_format_prediction = True
+
+    # --predict_laterality / -p
+    if args.predict_laterality:
+
+        # check if prediction is possible, meaning if there are L and R pairs
+        # and if they are aligned with for example the extra info
+        left_non_error_indices = []
+        for index, metric in enumerate(TASK_DATA["metrics_left"]):
+            if "error" in metric[index].keys():
+                continue
+            else:
+                left_non_error_indices.append(index)
+
+        right_non_error_indices = []
+        for index, metric in enumerate(TASK_DATA["metrics_right"]):
+            if "error" in metric[index].keys():
+                continue
+            else:
+                right_non_error_indices.append(index)
+
+        # combine the valid indices
+        valid_indices = list(set(left_non_error_indices)
+                             & set(right_non_error_indices))
+
+        if len(left_non_error_indices) != len(right_non_error_indices):
+            print(f"There is a mismatch between number of right and left bundle\
+ files that can be included, predictions will be made for bundles with these \
+indices: {valid_indices} (check the generated json file for more info)")
+
+        if len(valid_indices) == 0:
+            print("No prediction can be made, make sure that left AND right\
+bundles are included and no errors have occured. Chcek generated json\
+ file for more info")
+            exit()
+
+        if json_format_prediction:
+            predictions = []
+            for pair_index in valid_indices:
+                single_pred = predict_laterality_from_task_data(
+                    TASK_DATA,
+                    pair_index,
+                    EXTRA_DATA_PRESENT)
+
+                predictions.append(single_pred)
+
+            # Add predictions list to task DATA and output to json
+            TASK_DATA["predictions"] = predictions
+
+            # Save TASK DATA to the metrics file
+            with open(f"{PREFIX}bundle_metrics{SUFFIX}.json",
+                      "w",
+                      encoding="utf-8") as metrics_file:
+                json.dump(TASK_DATA, metrics_file, indent=4)
+
+        if csv_format_prediction:
+            print("Saving predictions to CSV not implemented yet. Continuing")
+
+    output_save_json = False
+    output_save_csv = False
+    output_save_pdf = False
+    output_save_docx = False
+
+    if args.output_format:
+        if "json" in args.output_format:
+            output_save_json = True
+        if "csv" in args.output_format:
+            output_save_csv = True
+        if "pdf" in args.output_format:
+            output_save_pdf = True
+        if "docx" in args.output_format:
+            output_save_docx = True
+
+    if args.save_output:
+        base_name = args.save_output.split(".")[0].replace(" ", "_")
+        # if no output format is defined, default to json
+        if (output_save_json
+            | output_save_csv
+            | output_save_pdf
+                | output_save_docx) == False:
+            output_save_json = True
+
+        if output_save_json:
+            with open(f"{PREFIX}{base_name}{SUFFIX}.json","w", encoding="utf-8") as f:
+                json.dump(TASK_DATA, f, indent=4)
+        if output_save_csv:
+            print("csv output not supported yet")
+        if output_save_pdf:
+            print("pdf output not supported yet")
+        if output_save_docx:
+            print("docx output not supported yet")
