@@ -83,7 +83,7 @@ def handle_handedness_input(subject_dict: dict) -> dict:
         dict: subject dictionary updated with handedness
     """    
     while True:
-        subject_handedness = input("Enter subject sex (L/R/A): ")
+        subject_handedness = input("Enter subject handedness (L/R/A): ")
         if subject_handedness in ["L", "l", "left"]:
             subject_dict["subject_handedness"] = "L"
             break
