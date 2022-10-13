@@ -1,0 +1,9 @@
+{
+    "subject_age": 12,
+    "subject_sex": "M",
+    "subject_handedness": "L",
+    "subject_method": "iFOD2",
+    "subject_clean": true,
+    "subject_act": true,
+    "subject_tract": "AF_wprecentral"
+}

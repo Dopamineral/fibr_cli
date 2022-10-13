@@ -151,14 +151,14 @@ def calculate_metrics(tract, tract_vol):
         (np.pi*diameter_metric*length_metric)
 
     # Construct final dictionary to output
-    metrics_dict = {'tract_length': length_metric,
-                    'tract_span': span_metric,
-                    'tract_curl': curl_metric,
-                    'tract_diameter': diameter_metric,
-                    'tract_elongation': elongation_metric,
-                    'tract_volume': volume_metric,
-                    'tract_surface_area': surface_area_metric,
-                    'tract_irregularity': irregularity_metric,
+    metrics_dict = {'tract_length': float(length_metric),
+                    'tract_span': float(span_metric),
+                    'tract_curl': float(curl_metric),
+                    'tract_diameter': float(diameter_metric),
+                    'tract_elongation': float(elongation_metric),
+                    'tract_volume': float(volume_metric),
+                    'tract_surface_area': float(surface_area_metric),
+                    'tract_irregularity': float(irregularity_metric),
                     }
 
     return metrics_dict
@@ -194,3 +194,4 @@ if __name__ == "__main__":
     vol_R = streamline2volume(right_tck, reference_nii)
     out = calculate_metrics(right_tck, vol_R)
     print(out)
+

@@ -1,0 +1,125 @@
+{
+    "subject_data": {
+        "subject_age": 45,
+        "subject_sex": "M",
+        "subject_handedness": "R",
+        "subject_method": "iFOD2",
+        "subject_clean": true,
+        "subject_act": true,
+        "subject_tract": "AF_wprecentral"
+    },
+    "left_bundles": [
+        {
+            "0": "AF_left.tck"
+        },
+        {
+            "1": "AF_left.tck"
+        }
+    ],
+    "right_bundles": [
+        {
+            "0": "AF_right.tck"
+        },
+        {
+            "1": "AF_right.tck"
+        }
+    ],
+    "extra_bundle_info_files": [
+        {
+            "0": "subject_metrics.json"
+        },
+        {
+            "1": "subject_metrics.json"
+        },
+        {
+            "2": "subject_metrics.json"
+        }
+    ],
+    "extra_bundle_info": [
+        {
+            "0": {
+                "subject_age": 12,
+                "subject_sex": "M",
+                "subject_handedness": "L",
+                "subject_method": "iFOD2",
+                "subject_clean": true,
+                "subject_act": true,
+                "subject_tract": "AF_wprecentral"
+            }
+        },
+        {
+            "1": {
+                "subject_age": 12,
+                "subject_sex": "M",
+                "subject_handedness": "L",
+                "subject_method": "iFOD2",
+                "subject_clean": true,
+                "subject_act": true,
+                "subject_tract": "AF_wprecentral"
+            }
+        },
+        {
+            "2": {
+                "subject_age": 12,
+                "subject_sex": "M",
+                "subject_handedness": "L",
+                "subject_method": "iFOD2",
+                "subject_clean": true,
+                "subject_act": true,
+                "subject_tract": "AF_wprecentral"
+            }
+        }
+    ],
+    "metrics_left": [
+        {
+            "0": {
+                "tract_length": 94.76845490264719,
+                "tract_span": 43.849891662597656,
+                "tract_curl": 2.161201574495136,
+                "tract_diameter": 21.14471169731773,
+                "tract_elongation": 4.481898654341494,
+                "tract_volume": 33278.0,
+                "tract_surface_area": 41141.65625,
+                "tract_irregularity": 6.535312069207887
+            }
+        },
+        {
+            "1": {
+                "tract_length": 94.76845490264719,
+                "tract_span": 43.849891662597656,
+                "tract_curl": 2.161201574495136,
+                "tract_diameter": 21.14471169731773,
+                "tract_elongation": 4.481898654341494,
+                "tract_volume": 33278.0,
+                "tract_surface_area": 41141.65625,
+                "tract_irregularity": 6.535312069207887
+            }
+        }
+    ],
+    "metrics_right": [
+        {
+            "0": {
+                "tract_length": 83.19066147162192,
+                "tract_span": 52.03642654418945,
+                "tract_curl": 1.5987005064803252,
+                "tract_diameter": 20.389502883835082,
+                "tract_elongation": 4.080073062378386,
+                "tract_volume": 27163.0,
+                "tract_surface_area": 35243.91015625,
+                "tract_irregularity": 6.613829545415491
+            }
+        },
+        {
+            "1": {
+                "tract_length": 83.19066147162192,
+                "tract_span": 52.03642654418945,
+                "tract_curl": 1.5987005064803252,
+                "tract_diameter": 20.389502883835082,
+                "tract_elongation": 4.080073062378386,
+                "tract_volume": 27163.0,
+                "tract_surface_area": 35243.91015625,
+                "tract_irregularity": 6.613829545415491
+            }
+        }
+    ]
+}
