@@ -699,7 +699,8 @@ bundles are included and no errors have occured. Chcek generated json\
             output_save_json = True
 
         if output_save_json:
-            with open(f"{PREFIX}{base_name}{SUFFIX}.json","w", encoding="utf-8") as f:
+            with open(f"{PREFIX}{base_name}{SUFFIX}.json","w",
+             encoding="utf-8") as f:
                 json.dump(TASK_DATA, f, indent=4)
         if output_save_csv:
             print("csv output not supported yet")
