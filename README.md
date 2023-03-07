@@ -18,3 +18,8 @@ https://www.mkdocs.org/user-guide/deploying-your-docs/
 
 ### Argparse
 https://realpython.com/command-line-interfaces-python-argparse/#:~:text=The%20command%20line%20interface%20(also,currently%20the%20Python%20argparse%20library.
+
+# Installation steps:
+1. Make a virtual environment using python3.10 (either venv or with conda)
+2. Activate the environment
+3. pip install -r requirements.txt
