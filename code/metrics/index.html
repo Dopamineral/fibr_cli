@@ -1,0 +1,1532 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://example.com/code/metrics/">
+      
+      <link rel="icon" href="../../assets/brain.png">
+      <meta name="generator" content="mkdocs-1.4.0, mkdocs-material-8.5.6">
+    
+    
+      
+        <title>Calculating Metrics - Fibr CLI</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.20d9efc8.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anybody:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Anybody";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#calculating-the-relevant-metrics" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Fibr CLI" class="md-header__button md-logo" aria-label="Fibr CLI" data-md-component="logo">
+      
+  <img src="../../assets/brain_big.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fibr CLI
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Calculating Metrics
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../.." class="md-tabs__link">
+      Home
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        About
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link md-tabs__link--active">
+        Code
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Fibr CLI" class="md-nav__button md-logo" aria-label="Fibr CLI" data-md-component="logo">
+      
+  <img src="../../assets/brain_big.png" alt="logo">
+
+    </a>
+    Fibr CLI
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../about/">About</a>
+          
+            <label for="__nav_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="About" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          About
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/lab/" class="md-nav__link">
+        Lab
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/development/" class="md-nav__link">
+        Development
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../">Code</a>
+          
+            <label for="__nav_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Code" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Code
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Calculating Metrics
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Calculating Metrics
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#src.metrics.streamline2volume" class="md-nav__link">
+    streamline2volume()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#src.metrics.stream_length" class="md-nav__link">
+    stream_length()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#src.metrics.tract_length" class="md-nav__link">
+    tract_length()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#src.metrics.tract_span" class="md-nav__link">
+    tract_span()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#src.metrics.tract_diameter" class="md-nav__link">
+    tract_diameter()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#src.metrics.tract_surface_area" class="md-nav__link">
+    tract_surface_area()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#src.metrics.calculate_metrics" class="md-nav__link">
+    calculate_metrics()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#src.metrics.dict_append_suffix" class="md-nav__link">
+    dict_append_suffix()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="calculating-the-relevant-metrics">Calculating the relevant metrics<a class="headerlink" href="#calculating-the-relevant-metrics" title="Permanent link">&para;</a></h1>
+<p>Supported file formats.</p>
+<ul>
+<li>Tract files: <code>.tck</code></li>
+<li>Reference Volumes: <code>.nii.gz</code> / <code>.nii</code></li>
+</ul>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="src.metrics.streamline2volume" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">src</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">streamline2volume</span><span class="p">(</span><span class="n">tract</span><span class="p">,</span> <span class="n">reference_vol</span><span class="p">)</span></code>
+
+<a href="#src.metrics.streamline2volume" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Generates bundle volume from streamline file</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>tract</code></td>
+          <td>
+                <code>.tck</code>
+          </td>
+          <td><p>tck tract file for one side as found in init args</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>output_vol</code></td>          <td>
+                <code>numpy array</code>
+          </td>
+          <td><p>array with binarized tract volume</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>src/metrics.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">streamline2volume</span><span class="p">(</span><span class="n">tract</span><span class="p">,</span> <span class="n">reference_vol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generates bundle volume from streamline file</span>
+<span class="sd">    Args:</span>
+<span class="sd">        tract (.tck): tck tract file for one side as found in init args</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        output_vol(numpy array): array with binarized tract volume</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># load reference nii and get the correct reference dimensions out of it</span>
+    <span class="n">reference</span> <span class="o">=</span> <span class="n">reference_vol</span>
+    <span class="n">ref_affine</span> <span class="o">=</span> <span class="n">reference</span><span class="o">.</span><span class="n">affine</span>
+    <span class="n">ref_dim</span> <span class="o">=</span> <span class="n">reference</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s2">&quot;dim&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+
+    <span class="c1"># load individual streamlines from the tract file</span>
+    <span class="n">streamlines</span> <span class="o">=</span> <span class="n">tract</span><span class="o">.</span><span class="n">tractogram</span><span class="o">.</span><span class="n">streamlines</span>
+
+    <span class="c1"># transform streamlines to volume with dipy module</span>
+    <span class="n">tract_vol</span> <span class="o">=</span> <span class="n">density_map</span><span class="p">(</span>
+        <span class="n">streamlines</span><span class="p">,</span> <span class="n">affine</span><span class="o">=</span><span class="n">ref_affine</span><span class="p">,</span> <span class="n">vol_dims</span><span class="o">=</span><span class="n">ref_dim</span><span class="p">)</span>
+
+    <span class="n">output_vol</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">tract_vol</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># binarize the volume</span>
+
+    <span class="k">return</span> <span class="n">output_vol</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div><div class="admonition note">
+<p class="admonition-title">Take note</p>
+<p>Notes for this function</p>
+</div>
+<hr />
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="src.metrics.stream_length" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">src</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">stream_length</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span></code>
+
+<a href="#src.metrics.stream_length" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Calculates length of individual stream.
+calculates lenght of a stream as part of calculating tract length in:
+https://doi.org/10.1016/j.neuroimage.2020.117329 - table 1
+This function is needed to succesfully run some of the following
+functions that depend on individual stream lenghts.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>stream</code></td>
+          <td>
+                <code>numpy array</code>
+          </td>
+          <td><p>individual stream as is found in the .tck
+files if you iterate over tract.streamlines.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>stream_sum</code></td>          <td>
+                <code>float</code>
+          </td>
+          <td><p>The length of the stream</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>src/metrics.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">stream_length</span><span class="p">(</span><span class="n">stream</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculates length of individual stream.</span>
+<span class="sd">    calculates lenght of a stream as part of calculating tract length in:</span>
+<span class="sd">    https://doi.org/10.1016/j.neuroimage.2020.117329 - table 1</span>
+<span class="sd">    This function is needed to succesfully run some of the following</span>
+<span class="sd">    functions that depend on individual stream lenghts.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        stream (numpy array): individual stream as is found in the .tck</span>
+<span class="sd">            files if you iterate over tract.streamlines.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        stream_sum(float): The length of the stream</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">stream_sum</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">tt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">stream</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">stream_sum</span> <span class="o">+=</span> <span class="n">norm</span><span class="p">(</span><span class="n">stream</span><span class="p">[</span><span class="n">tt</span><span class="p">]</span><span class="o">-</span><span class="n">stream</span><span class="p">[</span><span class="n">tt</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">stream_sum</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div><div class="admonition note">
+<p class="admonition-title">Take note</p>
+<p>Notes for this function</p>
+</div>
+<hr />
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="src.metrics.tract_length" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">src</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">tract_length</span><span class="p">(</span><span class="n">tract</span><span class="p">)</span></code>
+
+<a href="#src.metrics.tract_length" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Calculates average length of the tract
+calculates lenght of a tract as part of calculating tract length in:
+https://doi.org/10.1016/j.neuroimage.2020.117329 - table 1
+This basically takes the average length of individual stream lenghts
+within a tract</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>tract</code></td>
+          <td>
+                <code>.tck</code>
+          </td>
+          <td><p>see above</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>tract_length</code></td>          <td>
+                <code>float</code>
+          </td>
+          <td><p>average length of the tract</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>src/metrics.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">tract_length</span><span class="p">(</span><span class="n">tract</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculates average length of the tract</span>
+<span class="sd">    calculates lenght of a tract as part of calculating tract length in:</span>
+<span class="sd">    https://doi.org/10.1016/j.neuroimage.2020.117329 - table 1</span>
+<span class="sd">    This basically takes the average length of individual stream lenghts</span>
+<span class="sd">    within a tract</span>
+<span class="sd">    Args:</span>
+<span class="sd">        tract (.tck): see above</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        tract_length(float): average length of the tract</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">tract_streams</span> <span class="o">=</span> <span class="n">tract</span><span class="o">.</span><span class="n">streamlines</span>
+    <span class="n">stream_sums</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">stream</span> <span class="ow">in</span> <span class="n">tract_streams</span><span class="p">:</span>
+        <span class="n">stream_sums</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stream_length</span><span class="p">(</span><span class="n">stream</span><span class="p">))</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">stream_sums</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div><div class="admonition note">
+<p class="admonition-title">Take note</p>
+<p>Notes for this function</p>
+</div>
+<hr />
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="src.metrics.tract_span" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">src</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">tract_span</span><span class="p">(</span><span class="n">tract</span><span class="p">)</span></code>
+
+<a href="#src.metrics.tract_span" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Calculates the span of the tract
+calculates span of a tract as part of calculating metric described in:
+https://doi.org/10.1016/j.neuroimage.2020.117329 - table 1
+This basically takes the mean of the distances between the starting
+points and ending points of the individual streams.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>tract</code></td>
+          <td>
+                <code>.tck</code>
+          </td>
+          <td><p>see above</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>tract_span</code></td>          <td>
+                <code>flaot</code>
+          </td>
+          <td><p>span of the tract</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>src/metrics.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">tract_span</span><span class="p">(</span><span class="n">tract</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculates the span of the tract</span>
+<span class="sd">    calculates span of a tract as part of calculating metric described in:</span>
+<span class="sd">    https://doi.org/10.1016/j.neuroimage.2020.117329 - table 1</span>
+<span class="sd">    This basically takes the mean of the distances between the starting</span>
+<span class="sd">    points and ending points of the individual streams.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        tract (.tck): see above</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        tract_span(flaot): span of the tract</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tract_streams</span> <span class="o">=</span> <span class="n">tract</span><span class="o">.</span><span class="n">streamlines</span>
+    <span class="n">span_sums</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">stream</span> <span class="ow">in</span> <span class="n">tract_streams</span><span class="p">:</span>
+        <span class="n">span_sums</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">stream</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">stream</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">tract_span</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">span_sums</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tract_span</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div><div class="admonition note">
+<p class="admonition-title">Take note</p>
+<p>Notes for this function</p>
+</div>
+<hr />
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="src.metrics.tract_diameter" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">src</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">tract_diameter</span><span class="p">(</span><span class="n">tract</span><span class="p">,</span> <span class="n">tract_vol</span><span class="p">)</span></code>
+
+<a href="#src.metrics.tract_diameter" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Calculates diameter of tract
+calculates span of a tract as part of calculating metric described in:
+https://doi.org/10.1016/j.neuroimage.2020.117329 - table 1
+Basically simplifies the tract as a cilinder and calculates a diameter
+based on the tract lenght and tract volume.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>tract</code></td>
+          <td>
+                <code>.tck</code>
+          </td>
+          <td><p>see above</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>tract_vol</code></td>
+          <td>
+                <code>numpy_array</code>
+          </td>
+          <td><p>see above</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>tract_diameter</code></td>          <td>
+                <code>float</code>
+          </td>
+          <td><p>the diameter of the tract</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>src/metrics.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">tract_diameter</span><span class="p">(</span><span class="n">tract</span><span class="p">,</span> <span class="n">tract_vol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculates diameter of tract</span>
+<span class="sd">    calculates span of a tract as part of calculating metric described in:</span>
+<span class="sd">    https://doi.org/10.1016/j.neuroimage.2020.117329 - table 1</span>
+<span class="sd">    Basically simplifies the tract as a cilinder and calculates a diameter</span>
+<span class="sd">    based on the tract lenght and tract volume.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        tract (.tck): see above</span>
+<span class="sd">        tract_vol (numpy_array): see above</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        tract_diameter(float): the diameter of the tract</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">length_metric</span> <span class="o">=</span> <span class="n">tract_length</span><span class="p">(</span><span class="n">tract</span><span class="p">)</span>
+    <span class="n">N_voxels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">tract_vol</span><span class="p">)</span>
+    <span class="n">volume</span> <span class="o">=</span> <span class="n">N_voxels</span>
+    <span class="n">diameter</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">volume</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">length_metric</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">diameter</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div><div class="admonition note">
+<p class="admonition-title">Take note</p>
+<p>Notes for this function</p>
+</div>
+<hr />
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="src.metrics.tract_surface_area" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">src</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">tract_surface_area</span><span class="p">(</span><span class="n">tract_vol</span><span class="p">)</span></code>
+
+<a href="#src.metrics.tract_surface_area" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Calculates surface area of the tract
+Where the reference publication
+(https://doi.org/10.1016/j.neuroimage.2020.117329)
+uses voxel spacing to calculate the suface volume of the tract
+we use a marching cubes algorithm to approximage a surface mesh of the
+bundle and then calculate the  area of that surface mesh.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>tract_vol</code></td>
+          <td>
+                <code>numpy_array</code>
+          </td>
+          <td><p>see above</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>surface_area</code></td>          <td>
+                <code>float</code>
+          </td>
+          <td><p>surface area of tract</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>src/metrics.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">tract_surface_area</span><span class="p">(</span><span class="n">tract_vol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculates surface area of the tract</span>
+<span class="sd">    Where the reference publication</span>
+<span class="sd">    (https://doi.org/10.1016/j.neuroimage.2020.117329)</span>
+<span class="sd">    uses voxel spacing to calculate the suface volume of the tract</span>
+<span class="sd">    we use a marching cubes algorithm to approximage a surface mesh of the</span>
+<span class="sd">    bundle and then calculate the  area of that surface mesh.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        tract_vol (numpy_array): see above</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        surface_area(float): surface area of tract</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">verts</span><span class="p">,</span> <span class="n">faces</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">marching_cubes</span><span class="p">(</span><span class="n">tract_vol</span><span class="p">)</span>
+    <span class="n">surface_area</span> <span class="o">=</span> <span class="n">mesh_surface_area</span><span class="p">(</span><span class="n">verts</span><span class="p">,</span> <span class="n">faces</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">surface_area</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div><div class="admonition note">
+<p class="admonition-title">Take note</p>
+<p>Notes for this function</p>
+</div>
+<hr />
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="src.metrics.calculate_metrics" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">src</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">calculate_metrics</span><span class="p">(</span><span class="n">tract</span><span class="p">,</span> <span class="n">tract_vol</span><span class="p">)</span></code>
+
+<a href="#src.metrics.calculate_metrics" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Calculates all the metrics for a bundle and stores them in a dictionary</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>tract</code></td>
+          <td>
+                <code>.tck</code>
+          </td>
+          <td><p>tract file of one side of the bundle of interest</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>tract_vol</code></td>
+          <td>
+                <code>numpy array</code>
+          </td>
+          <td><p>3d array of binarized tract volume (see
+streamline2volume function)</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>metrics_dict</code></td>          <td>
+                <code>dict</code>
+          </td>
+          <td></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>src/metrics.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calculate_metrics</span><span class="p">(</span><span class="n">tract</span><span class="p">,</span> <span class="n">tract_vol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculates all the metrics for a bundle and stores them in a dictionary</span>
+<span class="sd">    Args:</span>
+<span class="sd">        tract (.tck): tract file of one side of the bundle of interest</span>
+<span class="sd">        tract_vol (numpy array): 3d array of binarized tract volume (see</span>
+<span class="sd">            streamline2volume function)</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        metrics_dict(dict):</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Calculate all the metrics and assign to variables</span>
+    <span class="n">length_metric</span> <span class="o">=</span> <span class="n">tract_length</span><span class="p">(</span><span class="n">tract</span><span class="p">)</span>
+    <span class="n">span_metric</span> <span class="o">=</span> <span class="n">tract_span</span><span class="p">(</span><span class="n">tract</span><span class="p">)</span>
+    <span class="n">curl_metric</span> <span class="o">=</span> <span class="n">length_metric</span> <span class="o">/</span> <span class="n">span_metric</span>
+    <span class="n">diameter_metric</span> <span class="o">=</span> <span class="n">tract_diameter</span><span class="p">(</span><span class="n">tract</span><span class="p">,</span> <span class="n">tract_vol</span><span class="p">)</span>
+    <span class="n">elongation_metric</span> <span class="o">=</span> <span class="n">length_metric</span> <span class="o">/</span> <span class="n">diameter_metric</span>
+    <span class="n">volume_metric</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">tract_vol</span><span class="p">)</span>
+    <span class="n">surface_area_metric</span> <span class="o">=</span> <span class="n">tract_surface_area</span><span class="p">(</span><span class="n">tract_vol</span><span class="p">)</span>
+    <span class="n">irregularity_metric</span> <span class="o">=</span> <span class="n">surface_area_metric</span> <span class="o">/</span> \
+        <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">diameter_metric</span><span class="o">*</span><span class="n">length_metric</span><span class="p">)</span>
+
+    <span class="c1"># Construct final dictionary to output</span>
+    <span class="n">metrics_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tract_length&#39;</span><span class="p">:</span> <span class="n">length_metric</span><span class="p">,</span>
+                    <span class="s1">&#39;tract_span&#39;</span><span class="p">:</span> <span class="n">span_metric</span><span class="p">,</span>
+                    <span class="s1">&#39;tract_curl&#39;</span><span class="p">:</span> <span class="n">curl_metric</span><span class="p">,</span>
+                    <span class="s1">&#39;tract_diameter&#39;</span><span class="p">:</span> <span class="n">diameter_metric</span><span class="p">,</span>
+                    <span class="s1">&#39;tract_elongation&#39;</span><span class="p">:</span> <span class="n">elongation_metric</span><span class="p">,</span>
+                    <span class="s1">&#39;tract_volume&#39;</span><span class="p">:</span> <span class="n">volume_metric</span><span class="p">,</span>
+                    <span class="s1">&#39;tract_surface_area&#39;</span><span class="p">:</span> <span class="n">surface_area_metric</span><span class="p">,</span>
+                    <span class="s1">&#39;tract_irregularity&#39;</span><span class="p">:</span> <span class="n">irregularity_metric</span><span class="p">,</span>
+                    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">metrics_dict</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div><div class="admonition note">
+<p class="admonition-title">Take note</p>
+<p>Notes for this function</p>
+</div>
+<hr />
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="src.metrics.dict_append_suffix" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">src</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">dict_append_suffix</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span></code>
+
+<a href="#src.metrics.dict_append_suffix" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Adds a suffix to all dictionary keys
+This is a helper function to make sure the dictionary keys are named
+correctly before they are integrated into a dataframe.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>d</code></td>
+          <td>
+                <code>dict</code>
+          </td>
+          <td><p>dictionary where you want to add suffix</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>suffix</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>suffix you want to add</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>dict</code>
+          </td>
+          <td><p>dictionary with update suffixes</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>src/metrics.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">dict_append_suffix</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">suffix</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Adds a suffix to all dictionary keys</span>
+<span class="sd">    This is a helper function to make sure the dictionary keys are named</span>
+<span class="sd">    correctly before they are integrated into a dataframe.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        d (dict): dictionary where you want to add suffix</span>
+<span class="sd">        suffix (str): suffix you want to add</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        (dict): dictionary with update suffixes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">old_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">old_keys</span><span class="p">)):</span>
+        <span class="n">old_key</span> <span class="o">=</span> <span class="n">old_keys</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+        <span class="n">new_key</span> <span class="o">=</span> <span class="n">old_key</span><span class="o">+</span><span class="n">suffix</span>
+
+        <span class="n">d</span><span class="p">[</span><span class="n">new_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">old_key</span><span class="p">]</span>
+        <span class="n">d</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">old_key</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">d</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div><div class="admonition note">
+<p class="admonition-title">Take note</p>
+<p>Notes for this function</p>
+</div>
+<hr />
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Here will be references to all the code stuff" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Here will be references to all the code stuff
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.expand", "navigation.indexes", "toc.integrate", "toc.follow", "navigation.top"], "search": "../../assets/javascripts/workers/search.5bf1dace.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.078830c0.min.js"></script>
+      
+    
+  </body>
+</html>
